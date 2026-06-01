@@ -1,0 +1,776 @@
+{
+  "info": {
+    "name": "FRSHURE API",
+    "description": "FRSHURE Student Jobs Marketplace API\n\nBase URL: {{base_url}}/api/v1\n\nAuthentication: Bearer token\n\nAfter signup/login, set `accessToken` variable from response.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "refreshToken",
+      "value": ""
+    },
+    {
+      "key": "jobId",
+      "value": ""
+    },
+    {
+      "key": "applicationId",
+      "value": ""
+    },
+    {
+      "key": "chatId",
+      "value": ""
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "API Root",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/refresh-token",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "refresh-token"]
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"old_password\",\n  \"newPassword\": \"NewPass123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/change-password",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "change-password"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Student",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"TestPass123\",\n  \"phone\": \"9876543210\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/student/signup",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "student", "signup"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"TestPass123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/student/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "student", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('accessToken', jsonData.data.accessToken);",
+                  "pm.collectionVariables.set('refreshToken', jsonData.data.refreshToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/student/logout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "student", "logout"]
+            }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/student/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "student", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "firstName", "value": "John", "type": "text"},
+                {"key": "lastName", "value": "Doe Updated", "type": "text"}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/student/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "student", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Get Applications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/student/applications",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "student", "applications"]
+            }
+          }
+        },
+        {
+          "name": "Get Saved Jobs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/student/saved-jobs",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "student", "saved-jobs"]
+            }
+          }
+        },
+        {
+          "name": "Save Job",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/student/save-job/{{jobId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "student", "save-job", "{{jobId}}"]
+            }
+          }
+        },
+        {
+          "name": "Unsave Job",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/student/unsave-job/{{jobId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "student", "unsave-job", "{{jobId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employer",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Smith\",\n  \"email\": \"jane.smith@company.com\",\n  \"password\": \"TestPass123\",\n  \"phone\": \"9876543211\",\n  \"companyName\": \"Tech Corp\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/employer/signup",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "employer", "signup"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"jane.smith@company.com\",\n  \"password\": \"TestPass123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/employer/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "employer", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('accessToken', jsonData.data.accessToken);",
+                  "pm.collectionVariables.set('refreshToken', jsonData.data.refreshToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employer/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "employer", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "companyName", "value": "Tech Corp Updated", "type": "text"},
+                {"key": "companyDescription", "value": "Leading tech company", "type": "text"}
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/employer/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "employer", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Get Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employer/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "employer", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Get Analytics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/employer/analytics",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "employer", "analytics"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "Create Job",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Software Developer Intern\",\n  \"description\": \"We are looking for a motivated intern to join our engineering team. You will work on real projects.\",\n  \"location\": {\n    \"city\": \"Mumbai\",\n    \"state\": \"Maharashtra\",\n    \"isRemote\": false\n  },\n  \"jobType\": \"INTERNSHIP\",\n  \"slots\": 2,\n  \"experienceLevel\": \"ENTRY\",\n  \"skills\": [\"JavaScript\", \"Node.js\", \"React\"],\n  \"salary\": {\n    \"min\": 15000,\n    \"max\": 30000,\n    \"isNegotiable\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs", "create"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if(jsonData.data && jsonData.data.job) {",
+                  "  pm.collectionVariables.set('jobId', jsonData.data.job._id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Jobs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs"]
+            }
+          }
+        },
+        {
+          "name": "Search Jobs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs/search?q=intern&city=Mumbai",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs", "search"],
+              "query": [
+                {"key": "q", "value": "intern"},
+                {"key": "city", "value": "Mumbai"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter Jobs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs/filter?jobType=INTERNSHIP",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs", "filter"],
+              "query": [{"key": "jobType", "value": "INTERNSHIP"}]
+            }
+          }
+        },
+        {
+          "name": "Get Job By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs/{{jobId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs", "{{jobId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Job",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Senior Software Developer Intern\",\n  \"slots\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs/update/{{jobId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs", "update", "{{jobId}}"]
+            }
+          }
+        },
+        {
+          "name": "Apply for Job",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"coverLetter\": \"I am very interested in this position.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs/apply/{{jobId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs", "apply", "{{jobId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Applicants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs/applicants/{{jobId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs", "applicants", "{{jobId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Job",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/jobs/delete/{{jobId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "jobs", "delete", "{{jobId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Applications",
+      "item": [
+        {
+          "name": "Accept Application",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Welcome to the team!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/application/accept/{{applicationId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "application", "accept", "{{applicationId}}"]
+            }
+          }
+        },
+        {
+          "name": "Reject Application",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rejectionReason\": \"Position filled\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/application/reject/{{applicationId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "application", "reject", "{{applicationId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Application",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/application/{{applicationId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "application", "{{applicationId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chat",
+      "item": [
+        {
+          "name": "Get Chat List",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/chat/list",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "chat", "list"]
+            }
+          }
+        },
+        {
+          "name": "Get Messages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/chat/messages/{{chatId}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "chat", "messages", "{{chatId}}"]
+            }
+          }
+        },
+        {
+          "name": "Send Message",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receiverId\": \"employer_id_here\",\n  \"receiverModel\": \"Employer\",\n  \"message\": \"Hello! I am interested in the position.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/chat/send",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "chat", "send"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Get Notifications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications"]
+            }
+          }
+        },
+        {
+          "name": "Mark as Read",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/read/notification_id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", "read", "notification_id"]
+            }
+          }
+        },
+        {
+          "name": "Delete Notification",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/notifications/delete/notification_id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "notifications", "delete", "notification_id"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobId\": \"{{jobId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/payment/create-order",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payment", "create-order"]
+            }
+          }
+        },
+        {
+          "name": "Verify Payment",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"razorpay_order_id\": \"order_xxx\",\n  \"razorpay_payment_id\": \"pay_xxx\",\n  \"razorpay_signature\": \"signature_xxx\",\n  \"orderId\": \"mongo_order_id\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/payment/verify",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payment", "verify"]
+            }
+          }
+        },
+        {
+          "name": "Webhook",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"payment.captured\",\n  \"payload\": {}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/payment/webhook",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "payment", "webhook"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/admin/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "admin", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Get Employers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/admin/employers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "admin", "employers"]
+            }
+          }
+        },
+        {
+          "name": "Approve Employer",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/admin/approve/employer_id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "admin", "approve", "employer_id"]
+            }
+          }
+        },
+        {
+          "name": "Reject Employer",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/admin/reject/employer_id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "admin", "reject", "employer_id"]
+            }
+          }
+        },
+        {
+          "name": "Get Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/admin/users",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/admin/user/user_id?role=STUDENT",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "admin", "user", "user_id"],
+              "query": [{"key": "role", "value": "STUDENT"}]
+            }
+          }
+        },
+        {
+          "name": "Get Analytics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/admin/analytics",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "admin", "analytics"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
